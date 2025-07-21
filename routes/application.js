@@ -6,10 +6,10 @@ const auth = require("../middleware/auth");
 
 const Application = require("../models/Application");
 
-// 🔧 File storage config using multer
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/"); // Save resumes here
+    cb(null, "uploads/"); 
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// ✅ Apply to a job
+
 router.post("/apply", auth, upload.single("resume"), async (req, res) => {
   try {
     const { jobId, coverLetter } = req.body;
@@ -44,7 +44,7 @@ router.post("/apply", auth, upload.single("resume"), async (req, res) => {
   }
 });
 
-// ✅ Get all applications for logged-in applicant
+
 router.get("/mine", auth, async (req, res) => {
   try {
     const applications = await Application.find({ applicant: req.user.id }).populate("job");
